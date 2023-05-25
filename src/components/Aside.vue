@@ -12,17 +12,17 @@
     >
       <el-menu-item index="/Home">
         <el-icon><ElementPlus /></el-icon>
-        <span>首页</span>
+        <template #title>首页</template>
       </el-menu-item>
 
       <el-menu-item index="/One">
         <el-icon><Medal /></el-icon>
-        <span>导航一</span>
+        <template #title>导航一</template>
       </el-menu-item>
 
       <el-menu-item index="/Two">
         <el-icon><Paperclip /></el-icon>
-        <span>导航二</span>
+        <template #title>导航二</template>
       </el-menu-item>
 <!--      <el-sub-menu index="1">-->
 <!--        <template #title>-->
@@ -35,17 +35,18 @@
   </el-scrollbar>
 </template>
 <script setup>
-import { ElementPlus,Medal,Paperclip } from '@element-plus/icons-vue'
-
-</script>
+import {ElementPlus, Medal, Paperclip} from '@element-plus/icons-vue'</script>
 <script>
 
 export default {
   name: "Aside",
-  data(){
-    return{
-    isCollapse:false
+  data() {
+    return {
+      // isCollapse:false
     }
+  },
+  props: {
+    isCollapse: Boolean
   }
 }
 </script>

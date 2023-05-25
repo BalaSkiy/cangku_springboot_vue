@@ -1,10 +1,12 @@
 <template>
   <div style="display: flex;line-height: 60px" class="toolbar" >
     <div>
-      <el-icon style="margin-left: 8px;margin-top: 20px;font-size: 20px"><Fold /></el-icon>
+      <el-icon style="margin-left: 8px;margin-top: 20px;font-size: 20px" @click="collapse">
+        <Fold/>
+      </el-icon>
     </div>
     <div style="flex: 1;text-align: center;font-size: 34px">
-      <span>欢迎登录管理系统</span>
+      <span>欢迎登录图书管理系统</span>
     </div>
     <span>Tom</span>
     <el-dropdown>
@@ -19,18 +21,20 @@
   </div>
 </template>
 <script setup>
-import  {Remove,Fold}  from '@element-plus/icons-vue'
-</script>
+import {Fold, Remove} from '@element-plus/icons-vue'</script>
 
 <script>
 export default {
   name: "Header",
-  methods:{
-    toUser(){
-          console.log('toUser')
-    },
-    logout(){
+  methods: {
+    toUser() {
       console.log('toUser')
+    },
+    logout() {
+      console.log('toUser')
+    },
+    collapse() {
+      this.$emit('doCollapse')
     }
   }
 }

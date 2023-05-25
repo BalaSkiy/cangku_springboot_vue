@@ -1,16 +1,16 @@
 <template>
-  <el-container class="layout-container-demo" style="">
-    <el-aside width="200px" height="100%">
-      <Aside></Aside>
+  <el-container class="layout-container-demo">
+    <el-aside :width="aside_witdh" style="height:100%;">
+      <Aside :isCollapse="isCollapse"></Aside>
     </el-aside>
 
     <el-container style="height: 100%;" direction="vertical">
       <el-header style="text-align: right; font-size: 12px">
-        <Header></Header>
+        <Header @doCollapse="doCollapse"></Header>
       </el-header>
 
       <el-main style="height: 100%;">
-        <Main></Main>
+        <MainBook></MainBook>
       </el-main>
     </el-container>
   </el-container>
@@ -48,10 +48,29 @@
 import Aside from "./Aside";
 import Header from "./Header";
 import Main from "./Main";
+import MainBook from "./MainBook";
 
-export default{
+
+export default {
   name: "Index",
-  components:{Aside,Header,Main},
+  components: {Aside, Header, Main, MainBook},
+  data() {
+    return {
+      isCollapse: false,
+      aside_witdh: '200px'
+    }
+  },
+  methods: {
+    doCollapse() {
+      console.log(1111)
+      this.isCollapse = !this.isCollapse
+      if (!this.isCollapse) {//展开
+        this.aside_witdh = '200px'
+      } else {//关闭
+        this.aside_witdh = '64'
+      }
+    }
+  }
 
 }
 

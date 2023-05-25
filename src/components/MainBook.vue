@@ -2,43 +2,43 @@
   <div>
     <el-scrollbar>
       <div style="margin-bottom: 5px;">
-        <el-input v-model="name" placeholder="请输入名字" style="width:250px;" suffix-icon="search"
+        <el-input v-model="bname" placeholder="请输入书名" style="width:250px;" suffix-icon="search"
                   @keyup.enter="loadPost"></el-input>
-        <el-config-provider :locale="zhCn">
-          <el-select v-model="sex" filterable placeholder="请选择性别" style="margin-left: 5px">
-            <el-option
-                v-for="item in sexs"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            />
-          </el-select>
-        </el-config-provider>
+        <!--        <el-config-provider :locale="zhCn">-->
+        <!--          <el-select v-model="sex" filterable placeholder="请选择性别" style="margin-left: 5px">-->
+        <!--            <el-option-->
+        <!--                v-for="item in sexs"-->
+        <!--                :key="item.value"-->
+        <!--                :label="item.label"-->
+        <!--                :value="item.value"-->
+        <!--            />-->
+        <!--          </el-select>-->
+        <!--        </el-config-provider>-->
         <el-button style="margin-left: 5px" type="primary" @click="loadPost">查询</el-button>
-        <el-button type="success" @click="resetParam()">重置</el-button>
+        <!--        <el-button type="success" @click="resetParam()">重置</el-button>-->
         <el-button style="margin-left: 5px" type="primary" @click="add">新增</el-button>
       </div>
       <el-table :data="tableData"
                 :header-cell-style="{background:'#f2f5fc', color:'#555555'}"
                 border
       >
-        <el-table-column label="Id" prop="id" width="120"/>
-        <el-table-column label="姓名" prop="name" width="100"/>
-        <el-table-column label="年龄" prop="age" width="100"/>
-        <el-table-column label="性别" prop="sex" width="100">
-          <template #default="scope">
-            <el-tag :type="scope.row.sex === '1' ? 'primary' : 'success'" disable-transitions>
-              {{ scope.row.sex === '1' ? '男' : '女' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="手机号" prop="phone" width="140"/>
-        <el-table-column label="Password" prop="password" width="160"/>
+        <el-table-column label="书籍Id" prop="bid" width="120"/>
+        <el-table-column label="书名" prop="bname" width="100"/>
+        <el-table-column label="类别" prop="bclass" width="100"/>
+        <el-table-column label="作者" prop="bauthor" width="100"/>
+        <!--          <template #default="scope">-->
+        <!--            <el-tag :type="scope.row.sex === '1' ? 'primary' : 'success'" disable-transitions>-->
+        <!--              {{ scope.row.sex === '1' ? '男' : '女' }}-->
+        <!--            </el-tag>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <el-table-column label="出版时间" prop="bpubdate" width="140"/>
+        <el-table-column label="入库时间" prop="bindate" width="250"/>
         <el-table-column label="操作" prop="operate">
           <template #default="scope">
             <el-button size="small" type="success" @click="mod(scope.row)">编辑</el-button>
             <el-config-provider :locale="zhCn">
-              <el-popconfirm style="margin-left: 5px" title="是否确定删除？" @confirm="del(scope.row.id)">
+              <el-popconfirm style="margin-left: 5px" title="是否确定删除？" @confirm="del(scope.row.bid)">
                 <template #reference>
                   <el-button size="small" type="danger">删除</el-button>
                 </template>
@@ -67,35 +67,45 @@
             width="30%"
         >
           <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-            <el-form-item label="Id" prop="id">
+            <el-form-item label="书籍Id" prop="bid">
               <el-col :span="18">
-                <el-input v-model="form.id" disabled/>
+                <el-input v-model="form.bid" :disabled="dis"/>
               </el-col>
             </el-form-item>
-            <el-form-item label="姓名" prop="name">
+            <el-form-item label="书名" prop="bname">
               <el-col :span="18">
-                <el-input v-model="form.name"/>
+                <el-input v-model="form.bname"/>
               </el-col>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
+            <el-form-item label="类别" prop="bclass">
               <el-col :span="18">
-                <el-input v-model="form.password"/>
+                <el-input v-model="form.bclass"/>
               </el-col>
             </el-form-item>
-            <el-form-item label="年龄" prop="age">
+            <el-form-item label="作者" prop="bauthor">
               <el-col :span="18">
-                <el-input v-model="form.age"/>
+                <el-input v-model="form.bauthor"/>
               </el-col>
             </el-form-item>
-            <el-form-item label="性别">
-              <el-radio-group v-model="form.sex">
-                <el-radio label="1">男</el-radio>
-                <el-radio label="0">女</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="手机号" prop="phone">
+            <el-form-item label="出版时间" prop="bpubdate">
               <el-col :span="18">
-                <el-input v-model="form.phone"/>
+                <el-date-picker
+                    v-model="form.bpubdate"
+                    :size="size"
+                    placeholder="选择出版时间"
+                    type="date"
+                />
+                <!--                <el-input v-model="form.bpubdate"/>-->
+              </el-col>
+            </el-form-item>
+            <el-form-item label="入库时间" prop="bindate">
+              <el-col :span="18">
+                <el-date-picker
+                    v-model="form.bindate"
+                    placeholder="选择入库时间"
+                    type="datetime"
+                />
+                <!--                <el-input v-model="form.bindate"/>-->
               </el-col>
             </el-form-item>
           </el-form>
@@ -118,22 +128,15 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'</script>
 
 <script>
 export default {
-  name: "Main",
+  name: "MainBook",
   data() {
-    let checkAge = (rule, value, callback) => {
-      if (value > 150) {
-        callback(new Error('年龄输入过大'));
-      } else {
-        callback();
-      }
-    };
     let checkDuplicate = (rule, value, callback) => {
-      if (this.form.name) {
+      if (this.form.bname) {
         return callback();
       }
-      this.$axios.get(this.$httpUrl + "/user/findById?id=" + this.form.id).then(res => res.data).then(res => {
+      this.$axios.get(this.$httpUrl + "/book/findById?bid=" + this.form.bid).then(res => res.data).then(res => {
         if (res.code == 200) {
-          callback(new Error('账号已经存在'))
+          callback(new Error('书籍id已经存在'))
         } else {
           callback(
               // new Error('账号已经存在')
@@ -147,51 +150,46 @@ export default {
       pageSize: 5,
       pageNum: 1,
       total: 0,
-      name: '',
-      sex: '',
-      sexs: [
-        {
-          value: '1',
-          label: '男'
-        },
-        {
-          value: '0',
-          label: '女'
-        }
-      ],
+      bname: '',
+      bclass: '',
+      // classes: [
+      //   {
+      //     value: '1',
+      //     label: '男'
+      //   },
+      //   {
+      //     value: '0',
+      //     label: '女'
+      //   }
+      // ],
+      dis: true,
       form: {
-        id: '',
-        name: '',
-        password: '',
-        age: '',
-        sex: '1',
-        phone: '',
+        bid: '',
+        bname: '',
+        bclass: '',
+        bauthor: '',
+        bpubdate: '',
+        bindate: '',
       },
       dialogVisible: false,
       rules: {
-        id: [
-          {required: true, message: '请输入Id', trigger: 'blur'},
-          {min: 3, max: 8, message: '长度在3-8个字符', trigger: 'blur'},
+        bid: [
+          {required: true, message: '请输入书籍Id', trigger: 'blur'},
+          // {min: 3, max: 8, message: '长度在3-8个字符', trigger: 'blur'},
           {validator: checkDuplicate, trigger: 'blur'}
 
         ],
-        name: [
-          {required: true, message: '请输入姓名', trigger: 'blur'}
+        bname: [
+          {required: true, message: '请输入书籍名称', trigger: 'blur'}
         ],
-        password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 3, max: 8, message: '长度在3-8个字符', trigger: 'blur'}
+        bclass: [
+          {required: true, message: '请输入书籍类别', trigger: 'blur'}
         ],
-        age: [
-          {required: true, message: '请输入年龄', trigger: 'blur'},
-          {min: 1, max: 3, message: '长度在1-3个位', trigger: 'blur'},
-          {pattern: /^([1-9][0-9]*){1,3}$/, message: '年龄必须为正整数', trigger: 'blur'},
-          {validator: checkAge, trigger: 'blur'}
+        bauthor: [
+          {required: true, message: '请输入作者', trigger: 'blur'}
         ],
-        phone: [
-          {required: true, message: '手机号不能为空', trigger: 'blur'},
-          {pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号码', trigger: 'blur'},
-        ],
+        bpubdate: [],
+        bindate: [],
       }
     }
   },
@@ -200,6 +198,7 @@ export default {
       this.$refs.form.resetFields();
     },
     add() {
+      this.dis = false
       this.dialogVisible = true
       this.$nextTick(() => {
         this.resetForm();
@@ -207,19 +206,20 @@ export default {
     },
     mod(row) {
       // console.log(row)
+      this.dis = true
       this.dialogVisible = true
       this.$nextTick(() => {
         //赋值到表单
-        this.form.id = row.id
-        this.form.name = row.name
-        this.form.sex = row.sex + ''
-        this.form.age = row.age + ''
-        this.form.password = ''
-        this.form.phone = row.phone
+        this.form.bid = row.bid
+        this.form.bname = row.bname
+        this.form.bclass = row.bclass
+        this.form.bauthor = row.bauthor
+        this.form.bpubdate = row.bpubdate
+        this.form.bindate = row.bindate
       })
     },
-    del(id) {
-      this.$axios.get(this.$httpUrl + '/user/delete?id=' + id).then(res => res.data).then(res => {
+    del(bid) {
+      this.$axios.get(this.$httpUrl + '/book/delete?bid=' + bid).then(res => res.data).then(res => {
         console.log(res)
         if (res.code == 200) {
           alert('操作成功');
@@ -233,7 +233,7 @@ export default {
 
     },
     doSave() {
-      this.$axios.post(this.$httpUrl + '/user/save', this.form).then(res => res.data).then(res => {
+      this.$axios.post(this.$httpUrl + '/book/save', this.form).then(res => res.data).then(res => {
         console.log(res)
         if (res.code == 200) {
           alert('操作成功');
@@ -248,7 +248,7 @@ export default {
       });
     },
     doMod() {
-      this.$axios.post(this.$httpUrl + '/user/update', this.form).then(res => res.data).then(res => {
+      this.$axios.post(this.$httpUrl + '/book/update', this.form).then(res => res.data).then(res => {
         console.log(res)
         if (res.code == 200) {
           alert('操作成功');
@@ -265,7 +265,7 @@ export default {
     save() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          if (this.form.id) {
+          if (this.form.bid) {
             this.doMod();
           } else {
             this.doSave();
@@ -279,23 +279,22 @@ export default {
     },
     // getAxios:function(){
     loadGet() {
-      this.$axios.get(this.$httpUrl + '/user/listP').then(res => res.data).then(res => {
+      this.$axios.get(this.$httpUrl + '/book/listP').then(res => res.data).then(res => {
         console.log(res)
       }).catch((error) => {
         console.log(error)
       });
     },
     resetParam() {
-      this.name = ''
-      this.sex = ''
+      this.bname = ''
     },
     loadPost() {
-      this.$axios.post(this.$httpUrl + '/user/listPageC', {
+      this.$axios.post(this.$httpUrl + '/book/listPageC', {
         pageSize: this.pageSize,
         pageNum: this.pageNum,
         param: {
-          name: this.name,
-          sex: this.sex
+          bname: this.bname,
+
         }
       }).then(res => res.data).then(res => {
         console.log(res)

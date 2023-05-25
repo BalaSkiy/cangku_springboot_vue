@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <Index></Index>
+    <Index></Index>
   </div>
 </template>
 
@@ -10,8 +10,8 @@ import Index from "@/components/Index";
 export default {
   name: 'App',
   components: {
-    Index
-
+    Index,
+    // Login
   },
 }
 </script>
