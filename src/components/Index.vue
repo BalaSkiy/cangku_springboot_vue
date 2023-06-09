@@ -10,7 +10,8 @@
       </el-header>
 
       <el-main style="height: 100%;">
-        <MainBook></MainBook>
+        <!--        <Main></Main>-->
+        <router-view/>
       </el-main>
     </el-container>
   </el-container>
@@ -47,13 +48,11 @@
 <script>
 import Aside from "./Aside";
 import Header from "./Header";
-import Main from "./Main";
-import MainBook from "./MainBook";
 
 
 export default {
   name: "Index",
-  components: {Aside, Header, Main, MainBook},
+  components: {Aside, Header},
   data() {
     return {
       isCollapse: false,

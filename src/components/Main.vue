@@ -69,7 +69,7 @@
           <el-form ref="form" :model="form" :rules="rules" label-width="120px">
             <el-form-item label="Id" prop="id">
               <el-col :span="18">
-                <el-input v-model="form.id" disabled/>
+                <el-input v-model="form.id" :disabled="dis"/>
               </el-col>
             </el-form-item>
             <el-form-item label="姓名" prop="name">
@@ -159,6 +159,7 @@ export default {
           label: '女'
         }
       ],
+      dis: true,
       form: {
         id: '',
         name: '',
@@ -200,6 +201,7 @@ export default {
       this.$refs.form.resetFields();
     },
     add() {
+      this.dis = false
       this.dialogVisible = true
       this.$nextTick(() => {
         this.resetForm();
